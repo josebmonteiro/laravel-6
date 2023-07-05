@@ -12,17 +12,6 @@ class ProductController extends Controller
     public function __construct(Request $request){
         $this->$request = $request;
 
-        // Posso aplicar o middleware no contrutor para todo o controller
-        //$this->middleware('auth');
-
-        // Posso aplicar o middleware no contrutor para um metodo específico do controller
-        //$this->middleware('auth')->only('create');
-
-        // Posso aplicar o middleware no contrutor para varios metodos específicos do controller
-        /*$this->middleware('auth')->only([
-            'create', 'store'
-        ]);*/
-
         // Posso aplicar o middleware no contrutor para todo o controller, exceto para um metodo específico
         $this->middleware('auth')->except([
             'index', 'show'
