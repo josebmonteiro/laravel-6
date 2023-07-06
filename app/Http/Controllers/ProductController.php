@@ -64,7 +64,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return "Form para editar o produto: {$id}";
+        return view('admin.pages.products.edit', compact('id'));
     }
 
     /**
@@ -88,6 +88,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd("Editando o produto: {$id}");
         return "Editando o produto: {$id}";
     }
 
