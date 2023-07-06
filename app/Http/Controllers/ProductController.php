@@ -13,9 +13,9 @@ class ProductController extends Controller
         $this->$request = $request;
 
         // Posso aplicar o middleware no contrutor para todo o controller, exceto para um metodo específico
-        $this->middleware('auth')->except([
+        /*$this->middleware('auth')->except([
             'index', 'show'
-        ]);
+        ]); */
     }
 
     /**
@@ -27,7 +27,12 @@ class ProductController extends Controller
     {
         $products = ['Product 01', 'Product 02', 'Product 03'];
         
-        return $products;
+        $teste = 123;
+        $teste2 = 456;
+        $teste3 = '1,2,3,4,5';
+        $products = ['Tv','Geladeira','Forno','Sofá'];
+        
+        return view('admin.pages.products.index', compact('teste', 'teste2', 'teste3', 'products'));
     }
 
     /**
@@ -48,7 +53,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return "Exibindo o form de cadastro de um novo produto";
+        return view('admin.pages.products.create');
     }
 
     /**
@@ -70,6 +75,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        dd("Cadastrando um novo produto");
         return "Cadastrando um novo produto";
     }
 
