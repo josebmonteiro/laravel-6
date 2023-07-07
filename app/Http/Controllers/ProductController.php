@@ -12,11 +12,6 @@ class ProductController extends Controller
 
     public function __construct(Request $request){
         $this->$request = $request;
-
-        // Posso aplicar o middleware no contrutor para todo o controller, exceto para um metodo específico
-        /*$this->middleware('auth')->except([
-            'index', 'show'
-        ]); */
     }
 
     /**
@@ -76,28 +71,8 @@ class ProductController extends Controller
      */
     public function store(StoreUpdateProductRequest $request)
     {
-        dd('ok');
-        /* Validando os dados */
-        /*$request->validate([
-            'name' => 'required|min:3|max:255',
-            'description' => 'nullable|min:3|max:10000',
-            'photo' => 'required|image',
-        ]);
-        dd('Ok');*/
-        /* Pegando os dados */
-        //dd($request->except('_token'));
-        //dd($request->input('name', 'Default se o campo não existir'));
-        //dd($request->has('name'));
-        //dd($request->name);
-        //dd($request->only(['name', 'description']));
-        //dd($request->all());
-
         /* Pegando o upload */
-        //dd($request->file('photo')->isValid());
         if ($request->file('photo')->isValid()){
-            //dd($request->photo->extension());
-            //dd($request->photo->getClientOriginalName());
-            //dd($request->file('photo')->store('products'));
             $nameFile = $request->name . '.' . $request->photo->extension();
             dd($request->file('photo')->storeAs('products', $nameFile));
         }
