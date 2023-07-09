@@ -4,107 +4,46 @@
 
 @section('content')
     <h1>Exibindo os produtos</h1>
+    <a href="{{ route('products.create')}}" class="btn btn-primary">Cadastrar</a>
 
-    <a href="{{ route('products.create')}}">Cadastrar</a>
+    <form action="{{ route('products.search') }}" method="post" class="form form-inline">
+        @csrf
+        <input type="text" name="filter" placeholder="Filtrar" class="form-control" value="{{ $filters['filter'] ?? '' }}">
+        <button type="submit" class="btn btn-info">Pesquisar</button>
+    </form>
 
-    <hr/>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th width="100">Imagem</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th width="100">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($products as $product)
+                <tr>
+                    <td>
+                        @if ($product->image)
+                            <img src="{{ url("storage/{$product->image}") }}" alt="{{$product->name}}" style="max-width: 100px">
+                        @endif
+                    </td>
+                    <td>{{$product->name}}</td>
+                    <td>{{$product->price}}</td>
+                    <td>
+                        <a href="{{ route('products.edit', $product->id)}}">Editar</a>
+                        <a href="{{ route('products.show', $product->id)}}">Detalhes</a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-    @component('admin.components.cards')
-        @slot('title')
-            <h1>Titulo card</h1>
-        @endslot
-        Um card de exemplo
-    @endcomponent
-
-    <hr/>
-
-    @include('admin.includes.alerts', ['content' => 'Alerta de preços de produtos'])
-
-    <hr/>
-
-    @if(isset($products))
-        @foreach ($products as $product)
-            <p class="@if ($loop->last) last @endif">{{ $product }}</p>
-        @endforeach
+    @if (isset($filters))
+        {!! $products->appends($filters)->links() !!}
+    @else
+        {!! $products->links() !!}
     @endif
-
-    <hr/>
-
-    @forelse ($products as $product)
-        <p class="@if ($loop->first) last @endif">{{ $product }}</p>
-    @empty
-        <p>Não existem produtos cadastrados</p>
-    @endforelse
-
-    <hr/>
-
-    {{ $teste }}
-    <!-- If normal -->
-    @if ($teste === '123')
-        É igual
-    @elseif($teste == 123)
-        É igual a 123
-    @else
-        É diferente
-    @endif
-
-    <!-- If invertida -->
-    @unless ($teste === '123')
-        Teste
-    @else
-        É diferente 2
-    @endunless
-
-    <!-- Possui valor ou foi setado no controler? -->
-    @isset($teste2)
-        {{ $teste2 }}
-    @endisset
-
-    <!-- Está vazio? -->
-    @empty($teste3)
-        Vazio
-    @else
-        Não está vazio {{ $teste3 }}
-    @endempty
-
-    <!-- Está autenticado? -->
-    @auth
-        <p>Autenticado</p>
-    @else
-        <p>Não está autenticado</p>
-    @endauth
-
-    <!-- Não está autenticado? -->
-    @guest
-        <p>Não está autenticado</p>
-    @else
-        <p>Autenticado</p>
-    @endguest
-
-    <!-- Switch normal -->
-    @switch($teste)
-        @case(1)
-            Igual a 1
-            @break
-        @case(2)
-            Igual a 2
-            @break
-        @case(123)
-            Igual a 123
-            @break
-        @default
-            Default
-    @endswitch
+    
 @endsection
-
-@push('styles')
-    <style>
-        .last {background: #CCC;}
-    </style>
-@endpush
-
-@push('scripts')
-    <script>
-        document.body.style.background = '#efefef';
-    </script>
-@endpush

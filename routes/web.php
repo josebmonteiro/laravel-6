@@ -1,5 +1,6 @@
 <?php
 
+Route::any('products/search', 'ProductController@search')->name('products.search');
 Route::resource('products', 'ProductController');
 
 Route::get('/login', function(){
