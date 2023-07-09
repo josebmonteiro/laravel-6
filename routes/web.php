@@ -1,7 +1,7 @@
 <?php
 
 Route::any('products/search', 'ProductController@search')->name('products.search')->middleware('auth');
-Route::resource('products', 'ProductController')->middleware('auth');
+Route::resource('products', 'ProductController')->middleware(['auth', 'check.is.admin']);
 
 Route::get('/login', function(){
     return 'login';
