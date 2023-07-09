@@ -1,7 +1,7 @@
 <?php
 
-Route::any('products/search', 'ProductController@search')->name('products.search');
-Route::resource('products', 'ProductController');
+Route::any('products/search', 'ProductController@search')->name('products.search')->middleware('auth');
+Route::resource('products', 'ProductController')->middleware('auth');
 
 Route::get('/login', function(){
     return 'login';
@@ -81,3 +81,5 @@ Route::get('/ola', function () {
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes(['register' => false]);
