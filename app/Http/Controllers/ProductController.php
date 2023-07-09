@@ -25,11 +25,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // Lista todos os produtos
-        //$products = Product::all();
-        //$products = Product::get();
-        
-        // Lista todos os produtos de forma paginada
         $products = Product::paginate(20);
 
         return view('admin.pages.products.index', [
@@ -45,9 +40,6 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //$product = Product::where('id', $id)->first();
-        
-        //if (!$product = Product::find($id))
         if (!$product = $this->repository->find($id))
             return redirect()->back();
 
@@ -92,25 +84,14 @@ class ProductController extends Controller
 
         /* Pegando o upload */
         if ($request->hasFile('image') && $request->image->isValid()){
-            //$nameFile = $request->name . '.' . $request->photo->extension();
             $imagePath = $request->image->store('products');
 
             $data['image'] = $imagePath;
         }
 
-        //Product::create($data);
         $this->repository->create($data);
 
         return redirect()->route('products.index');
-
-        /* Pegando o upload *
-        if ($request->file('photo')->isValid()){
-            $nameFile = $request->name . '.' . $request->photo->extension();
-            dd($request->file('photo')->storeAs('products', $nameFile));
-        }
-
-        return "Cadastrando um novo produto";
-        */
     }
 
     /**
